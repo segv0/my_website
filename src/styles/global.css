@@ -1,0 +1,15 @@
+
+@font-face {
+	font-family: 'VCR';
+	src: url('/fonts/VCRosdNEUE.ttf') format('truetype');
+	font-style: normal;
+	font-display: swap;
+}
+body {
+	font-family: 'VCR', monospace !important;
+}
+
+pre, code {
+	font-family: 'VCR', monospace !important;
+	font-weight: 100;
+}
