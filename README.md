@@ -1,8 +1,8 @@
-<h1 align="center">👩‍💻 token-template 👩‍💻</h1>
+<h1 align="center">Token</h1>
 <h2 align="center">Minimal Astro + Tailwind CSS Starter</h2>
 
 <p align="center">
-    <img alt="hero" width="450" src="https://emoji-route.deno.dev/svg/👩‍💻" />
+    <img alt="hero" width="450" src="public/image.png" />
 </p>
 
 > [!NOTE]
@@ -43,7 +43,7 @@ npm run dev
 
 | Landing Page                              |
 | ----------------------------------------- |
-| ![Demo](https://github.com/ArnavK-09.png) |
+| ![Demo](/public/screenshot.png) |
 
 ---
 
