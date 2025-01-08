@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "@/components/FormattedDate.astro";
+import FormattedDate from "@/components/Date.astro";
 import Layout from "@/layouts/Layout.astro";
 
 type Props = CollectionEntry<"blog">["data"];
@@ -18,10 +18,10 @@ const { title, pubDate, updatedDate, heroImage } = Astro.props;
       }
     </div>
     <div
-      class="prose brightness-110 prose-img:scale-90 prose-img:rounded-2xl prose-invert prose-hr:border-white prose-hr:bg-white px-4 md:px-0 md:max-w-4xl"
+      class="prose !max-w-[90vw] overflow-x-hidden !break-words brightness-110 prose-img:scale-90 prose-img:rounded-2xl prose-invert prose-hr:border-white prose-hr:bg-white px-4 md:px-0 md:max-w-4xl"
     >
-      <div class="title">
-        <div class="date">
+      <div>
+        <div>
           <FormattedDate date={pubDate} />
           {
             updatedDate && (
@@ -36,5 +36,5 @@ const { title, pubDate, updatedDate, heroImage } = Astro.props;
       </div>
       <slot />
     </div>
-  </article></Layout
->
+  </article>
+</Layout>
