@@ -11,7 +11,7 @@ export default defineConfig({
   integrations: [mdx(), sitemap(), tailwind()],
   markdown: {
     shikiConfig: {
-      theme: "aurora-x",
+      theme: "github-dark-high-contrast",
     },
   },
 });
