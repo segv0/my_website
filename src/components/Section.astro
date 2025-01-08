@@ -1,15 +1,20 @@
 ---
 type Props = {
-    title: string;
-}
-const {title = "Section"} = Astro.props;
+  title: string;
+  full_screen?: boolean;
+  className?: string;
+};
+const { title = "Section", full_screen = false, className = "" } = Astro.props;
 ---
 
-<section id={title.toLowerCase().replaceAll(' ' , '')} class="min-h-screen px-4 py-10 w-screen !overflow-x-hidden">
-    <div class="w-full grid place-items-center">
-        <h2 class="text-6xl">{`<${title} />`}</h2>
-    </div>
-    <div class="w-full mt-10 px-4">
-        <slot />
-    </div>
+<section
+  id={title.toLowerCase().replaceAll(" ", "")}
+  class={`${full_screen ? "h-screen" : ""} px-4 py-10 w-screen !overflow-x-hidden ${className}`}
+>
+  <div class="w-full grid place-items-center">
+    <h2 class="text-6xl text-center">{`<${title} />`}</h2>
+  </div>
+  <div class="w-full mt-10 px-4">
+    <slot />
+  </div>
 </section>
