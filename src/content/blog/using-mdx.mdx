@@ -4,6 +4,8 @@ description: "Lorem ipsum dolor sit amet"
 pubDate: "Jun 01 2024"
 ---
 
+import BlogPostCard from "@/components/BlogPostCard.astro";
+
 This theme comes with the [@astrojs/mdx](https://docs.astro.build/en/guides/integrations-guide/mdx/) integration installed and configured in your `astro.config.mjs` config file. If you prefer not to use MDX, you can disable support by removing the integration from your config file.
 
 ## Why MDX?
@@ -14,8 +16,20 @@ If you have existing content authored in MDX, this integration will hopefully ma
 
 ## Example
 
-Here is how you import and use a UI component inside of MDX.  
-When you open this page in the browser, you should see the clickable button below.
+Here is how you import and use a UI component inside of MDX.
+
+```js
+import BlogPostCard from "@/components/BlogPostCard.astro";
+```
+
+<div class="max-w-lg h-lg">
+  <BlogPostCard
+    slug={"using-mdx"}
+    title={"Using MDX"}
+    excerpt={"Lorem ipsum dolor sit amet"}
+    date={new Date("Jun 01 2024")}
+  />
+</div>
 
 ## More Links
 

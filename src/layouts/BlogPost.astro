@@ -5,11 +5,11 @@ import Layout from "@/layouts/Layout.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, pubDate, updatedDate, heroImage } = Astro.props;
 ---
 
 <Layout>
-  <article>
+  <article class="pb-10 grid place-items-center grid-cols-1">
     <div class="w-full grid place-items-center my-10 px-10 overflow-x-hidden">
       {
         heroImage && (
@@ -17,7 +17,9 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
         )
       }
     </div>
-    <div class="prose">
+    <div
+      class="prose brightness-110 prose-img:scale-90 prose-img:rounded-2xl prose-invert prose-hr:border-white prose-hr:bg-white px-4 md:px-0 md:max-w-4xl"
+    >
       <div class="title">
         <div class="date">
           <FormattedDate date={pubDate} />
