@@ -27,7 +27,7 @@
 
 ```bash
 # Clone the repository
-npx degit ArnavK-09/token-template my-portfolio
+git clone https://github.com/ArnavK-09/token-template.git my-portfolio
 cd my-portfolio
 
 # Install dependencies
