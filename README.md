@@ -45,7 +45,7 @@ npm run dev
 | ----------------------------------------- |
 | ![Demo](/public/screenshot.png) |
 
-| Lighthouse Results                              |
+| [Lighthouse Results](https://pagespeed.web.dev/analysis/https-token-template-deno-dev/o4lgrcn8pd?form_factor=desktop)                              |
 | ----------------------------------------- |
 | ![results](/public/lighthouse.png) |
 
