@@ -45,6 +45,10 @@ npm run dev
 | ----------------------------------------- |
 | ![Demo](/public/screenshot.png) |
 
+| Lighthouse Results                              |
+| ----------------------------------------- |
+| ![results](/public/lighthouse.png) |
+
 ---
 
 ## 💻 Contributing
