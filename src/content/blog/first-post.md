@@ -14,7 +14,7 @@ In this challenge we are given a "main.py" file that we can run it on our local 
 
 
 ![Question_one](/questions/web_chat2_part1.png)
-![Question_one](/questions/web_chat2_part1.png)
+![Question_one](/questions/web_chat2_part2.png)
 
 
 
