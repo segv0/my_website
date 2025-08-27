@@ -1,5 +1,5 @@
-export const SITE_TITLE = "segv0";
-export const SITE_DESCRIPTION = `segv0's Cybersecurity Blog.`.trim();
+export const SITE_TITLE = "segv0's Cybersecurity Blog";
+export const SITE_DESCRIPTION = `CTF Writeups and Cybersecurity Blogs`.trim();
 
 export const KNOWN_TECH =
   `PHP,CSS,HTML,Burp Suite,Bash,Python,Linux,Java,HTML,Ghidra,SQL,C,C#`.split(",");
