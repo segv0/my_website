@@ -68,3 +68,5 @@ if __name__ == '__main__':
 ## The application is vulnerable because it uses render_template_string with untrusted user input. Chat messages are concatenated into an HTML string and then passed to Jinja2, which interprets any template syntax like {{ ... }}.
 
 ![Solution](/solutions/web_group2_sol.png)
+
+**This exploit script abuses the SSTI flaw in the chat app to first leak Flask’s SECRET_KEY and then forge a malicious session cookie. It does this by sending two crafted usernames that stitch together {{ config }}, which makes Jinja render the server’s config and reveal the secret key. With that key, the script signs a fake session where the username itself contains a Jinja payload that executes os.popen('cat flag.txt').read(). When the server renders the chat with this forged session, the payload runs server-side and the contents of flag.txt are returned in the chat log.**
