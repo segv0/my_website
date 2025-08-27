@@ -7,7 +7,7 @@ heroImage: "/LIT_logo.png"
 
 The LIT-CTF 2025 competition featured a diverse set of challenges spanning multiple categories, including web exploitation, cryptography, reverse engineering, and forensics. Each task was carefully designed to test not only technical proficiency but also creativity and problem-solving under pressure.
 
-#### 1) Web challenge:     web/group chat 2 |  49 solves / 198 points
+# 1) Web challenge:     web/group chat 2 |  49 solves / 198 points
 
 In this challenge we are given a "main.py" file that we can run it on our local machine. And we examine the source code:
 
