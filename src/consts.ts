@@ -1,4 +1,4 @@
-export const SITE_TITLE = "segv0's Cybersecurity Blog";
+export const SITE_TITLE = "segv0";
 export const SITE_DESCRIPTION = `CTF Writeups and Cybersecurity Blogs`.trim();
 
 export const KNOWN_TECH =
