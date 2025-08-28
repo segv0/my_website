@@ -5,12 +5,100 @@ pubDate: "Aug 28 2022"
 heroImage: "/request_smuggling.png"
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+import type { JSX } from 'react'
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+1. Map endpoints where the front-end talks to back-end over **H1 keep-alive**.
+2. For each, test CL↔TE disagreements and ambiguous CL duplicates.
+3. If the site offers H2, repeat via H2 and compare behavior to H1 (downgrade probes).
+4. When you find a desync primitive, pivot to **impact**: cache/store endpoints, authenticated flows, password reset, email change, API gateways.
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+## Hardening checklist (ship this to prod)
+
+
+- **Eliminate upstream H1** where possible. Prefer **end-to-end HTTP/2** (or H3) so you don’t replay H2 as H1.
+- Where H1 upstream is unavoidable:
+- **Normalize once** (at the edge), then **strip** ambiguous headers before forwarding.
+- Reject requests with **both** `Content-Length` and `Transfer-Encoding`.
+- Forbid **duplicate** `Content-Length` or obs-fold whitespace.
+- Disable or gate `Transfer-Encoding: chunked` to only endpoints that need streaming.
+- Avoid back-end features that auto-read bodies without size caps.
+- **Connection hygiene:** do not coalesce unrelated tenants over the same upstream connection. Tie request identity to connection identity where feasible.
+- **Cache keys:** include relevant headers and the request line; prefer **cache slicing** to avoid cross-user poisoning.
+- **Regression tests:** pin a corpus of malformed requests; assert identical behavior at both hops.
+
+
+## Burp + tooling
+
+
+- Burp Suite’s **Request Smuggler** extension automates many probes (H1/H2, downgrade, client-side desync). It’s great for triage and reproduction.
+- Repeater + Logger++ give precise visibility into what each hop returned. Avoid Intruder-style floods.
+
+
+## Case studies & reading list
+
+
+- PortSwigger Academy — *What is HTTP request smuggling?* (intro + labs)
+- https://portswigger.net/web-security/request-smuggling
+- Advanced labs: https://portswigger.net/web-security/request-smuggling/advanced
+- Research by James Kettle (PortSwigger):
+- *HTTP Desync Attacks: Request Smuggling Reborn* (Black Hat/DEF CON 2019) — theory, case studies, defense
+- *HTTP/2: The Sequel is Always Worse* (Black Hat 2021) — H2-exclusive threats and downgraders
+- *Browser-Powered Desync Attacks* (2022) — client-side primitives
+- *HTTP/1.1 Must Die: The Desync Endgame* (2025) — why upstream H1 remains dangerous
+- Spec baseline: **RFC 9112** (HTTP/1.1 message syntax & framing)
+
+
+## Appendix: Handy payload shapes (educational)
+
+
+> These are **generic** shapes for lab environments. Never aim at real services without permission.
+
+
+**CL.TE skeleton**
+
+
+```
+POST /lab HTTP/1.1
+Host: example
+Content-Length: 60
+Transfer-Encoding: chunked
+
+
+0\r\n\r\nGET /victim HTTP/1.1\r\nHost: example\r\n\r\n
+```
+
+
+**TE.CL skeleton**
+
+
+```
+POST /lab HTTP/1.1
+Host: example
+Content-Length: 4
+Transfer-Encoding: chunked
+
+
+5\r\nHELLO\r\n0\r\n\r\n
+```
+
+
+**CL.CL skeleton** (ambiguous duplicate)
+
+
+```
+POST /lab HTTP/1.1
+Host: example
+Content-Length: 4
+Content-Length: 10
+
+
+PING\r\nGET /victim HTTP/1.1\r\nHost: example\r\n\r\n
+```
+
+
+---
+
+
+If you ship systems that still rely on upstream HTTP/1.1, your best defense is **simplify and normalize**: one parser, one policy, consistent framing. Otherwise, attackers will keep ending your HTTP for you.
