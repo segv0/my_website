@@ -4,14 +4,23 @@ description: In this blog, i will provide some informations that i have obtained
 pubDate: "Aug 28 2025"
 ---
 
-CTFs are sprints disguised as a marathon. You don’t need fancy tools or secret Discords to level up—you need **daily reps**, a **curious mindset**, and a **tight feedback loop**. Here’s what moved the needle most for me.
+
+## 1) Read CTF write‑ups—every day (15 minutes is enough)
 
 
-**How to read effectively**
-- Skim the context, then jump to the **root cause** and **fix**. Write your own 2–3 line **takeaway**.
-- Re‑create the key request in **Burp Repeater** or a quick script; confirm you understand the moving parts.
-- File each write‑up under a **tag** (e.g., `sqli/time-based`, `ssrf/aws`, `pwn/rop`); your future self will thank you.
+My wise friend Cisco once told me:
 
+
+> “If you start reading just 5 CTF write‑ups a day, by the end of this year you’ll be 10× more skilled than you are today. Just start, rn! That’s ~150 write‑ups a month. You’ll learn 30–40 unique techniques—no course can match that.”
+
+
+He was right. Why *reading* works:
+
+
+- **Pattern recognition**: after 50–100 write‑ups, you start spotting *vuln smells* instantly—off‑by‑one loops, unchecked deserialization, unsafe `eval`, template injections, time‑of‑check/time‑of‑use.
+- **Source‑first thinking**: you internalize where bugs usually live in frameworks (auth middleware, upload handlers, caching layers, serialization glue).
+- **Exploit schemas**: you collect mental templates—*SSTI → read config → popen → shell*, *XXE → file read → creds → pivot*, *padding oracle → decryption → cookie forge*.
+- **Speed**: seeing many solutions teaches you *what to try first* and what to ignore.
 
 ---
 
