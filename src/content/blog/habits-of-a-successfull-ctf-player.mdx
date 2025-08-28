@@ -1,5 +1,128 @@
 ---
-title: "Top 5 Habits to do for getting better at CTF's"
+title: "Top 6 Things to know for getting better at CTF's"
 description: In this blog, i will provide some informations that i have obtained in my process from CTF's and my dear Nepalli friends. These are the basic steps i implement everyday."
 pubDate: "Aug 28 2025"
 ---
+
+CTFs are sprints disguised as a marathon. You don’t need fancy tools or secret Discords to level up—you need **daily reps**, a **curious mindset**, and a **tight feedback loop**. Here’s what moved the needle most for me.
+
+
+**How to read effectively**
+- Skim the context, then jump to the **root cause** and **fix**. Write your own 2–3 line **takeaway**.
+- Re‑create the key request in **Burp Repeater** or a quick script; confirm you understand the moving parts.
+- File each write‑up under a **tag** (e.g., `sqli/time-based`, `ssrf/aws`, `pwn/rop`); your future self will thank you.
+
+
+---
+
+
+## 2) Find a team or community you can learn from
+
+
+Solo is fine; **teams are rocket fuel**. A good team gives you:
+- **Exposure** to new categories you’d never touch alone.
+- **Pair‑debugging**: someone to rubber‑duck with when you’re stuck.
+- **Feedback**: code reviews on your exploits; better payload hygiene.
+- **Momentum**: accountability keeps you showing up.
+
+
+Look for university clubs, local meetups, CTFtime teams, or Discords that match your vibe. Be the person who **shares notes** and **writes post‑mortems**—that’s how you get better *and* become valuable.
+
+
+---
+
+
+## 3) You can’t master every category—go T‑shaped
+
+
+CTFs are huge: web, pwn, crypto, forensics, rev, mobile, hardware… Trying to master everything leads to shallow wins. Go **T‑shaped**:
+
+
+- **Depth**: pick one primary lane (e.g., Web or Crypto) and build deep skills there.
+- **Breadth**: learn enough of the rest to collaborate and pivot during comps.
+
+
+**A simple plan**
+- Choose 1 category for a **12‑week focus**.
+- Do 3–5 targeted labs per week + 1 mini‑project (e.g., write a tiny parser, build a toy service with the vuln baked in, then patch it).
+- After 12 weeks, **rotate** or **double‑down** depending on your interest.
+
+
+---
+
+
+## 4) Rome wasn’t built in a day (but it was built daily)
+
+
+Progress feels slow—then it’s sudden. Your job is to keep the **flywheel** spinning:
+
+
+- **Tiny daily reps** > weekend binges.
+- Track **inputs**, not just outputs (minutes practiced, labs solved, write‑ups read).
+- Embrace plateaus: that’s your brain **consolidating patterns**.
+- Rest matters. Burnout kills curiosity.
+
+
+
+---
+
+
+## 5) Learn from open‑source docs—and the source itself
+
+
+The best teachers often aren’t courses—they’re **docs, RFCs, and code**:
+- Read **official docs** (frameworks, crypto libs, web servers) and **try the examples**.
+- Skim **RFCs** when you hunt protocol bugs (HTTP, TLS, DNS, OAuth, JWT). Even 15 minutes helps.
+- Read the **source** of vulnerable apps and common middleware; search for keywords like `eval`, `pickle`, `yaml.load`, `md5`, `redirect`, `exec`, `strcpy`.
+- Follow **issue trackers/PRs**—you’ll learn real‑world bug patterns and how maintainers fix them.
+
+
+Make a habit of writing a **one‑page note** per topic with: *what it is*, *how it breaks*, *how to detect*, *how to exploit safely*, *how to fix*.
+
+
+---
+
+
+## 6) Keep master notes for cybersecurity
+
+
+A great memory is overrated; a great **notes system** is unstoppable. Keep one **master knowledge base** you update daily so patterns stick and you don’t solve the same problem twice.
+
+
+**What to capture (use a template):**
+- **What**: vuln name + one‑sentence summary
+- **Root cause**: where it lives in code/infra
+- **Detect**: logs, smells, quick probes
+- **Exploit**: minimal PoC + gotchas
+- **Impact**: concrete outcomes (data read/write, auth bypass)
+- **Fix**: patch/config/defense‑in‑depth
+- **References**: best write‑ups, RFCs, CVEs
+- **Payloads/Snippets**: copy‑paste ready
+
+
+**Folder structure (example):**
+```
+notes/
+cheatsheets/
+payloads/
+writeups/ # your summaries of others' posts
+labs/ # your own solved labs + docker compose
+scripts/ # PoC skeletons, one-liners
+```
+
+---
+
+
+## Closing
+
+
+CTFs reward curiosity, consistency, and community. Read a little every day, find teammates who stretch you, specialize with intent, be patient with the process, and learn straight from the docs and code. Do that, and your scoreboard will take care of itself.
+
+
+---
+
+
+## Resources
+
+
+- https://cryptocat.me/resources
