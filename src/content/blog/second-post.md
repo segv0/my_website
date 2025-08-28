@@ -5,100 +5,31 @@ pubDate: "Aug 28 2022"
 heroImage: "/request_smuggling.png"
 ---
 
-import type { JSX } from 'react'
-
-
-1. Map endpoints where the front-end talks to back-end over **H1 keep-alive**.
-2. For each, test CL↔TE disagreements and ambiguous CL duplicates.
-3. If the site offers H2, repeat via H2 and compare behavior to H1 (downgrade probes).
-4. When you find a desync primitive, pivot to **impact**: cache/store endpoints, authenticated flows, password reset, email change, API gateways.
-
-
-## Hardening checklist (ship this to prod)
-
-
-- **Eliminate upstream H1** where possible. Prefer **end-to-end HTTP/2** (or H3) so you don’t replay H2 as H1.
-- Where H1 upstream is unavoidable:
-- **Normalize once** (at the edge), then **strip** ambiguous headers before forwarding.
-- Reject requests with **both** `Content-Length` and `Transfer-Encoding`.
-- Forbid **duplicate** `Content-Length` or obs-fold whitespace.
-- Disable or gate `Transfer-Encoding: chunked` to only endpoints that need streaming.
-- Avoid back-end features that auto-read bodies without size caps.
-- **Connection hygiene:** do not coalesce unrelated tenants over the same upstream connection. Tie request identity to connection identity where feasible.
-- **Cache keys:** include relevant headers and the request line; prefer **cache slicing** to avoid cross-user poisoning.
-- **Regression tests:** pin a corpus of malformed requests; assert identical behavior at both hops.
-
-
-## Burp + tooling
-
-
-- Burp Suite’s **Request Smuggler** extension automates many probes (H1/H2, downgrade, client-side desync). It’s great for triage and reproduction.
-- Repeater + Logger++ give precise visibility into what each hop returned. Avoid Intruder-style floods.
-
-
-## Case studies & reading list
-
-
-- PortSwigger Academy — *What is HTTP request smuggling?* (intro + labs)
-- https://portswigger.net/web-security/request-smuggling
-- Advanced labs: https://portswigger.net/web-security/request-smuggling/advanced
-- Research by James Kettle (PortSwigger):
-- *HTTP Desync Attacks: Request Smuggling Reborn* (Black Hat/DEF CON 2019) — theory, case studies, defense
-- *HTTP/2: The Sequel is Always Worse* (Black Hat 2021) — H2-exclusive threats and downgraders
-- *Browser-Powered Desync Attacks* (2022) — client-side primitives
-- *HTTP/1.1 Must Die: The Desync Endgame* (2025) — why upstream H1 remains dangerous
-- Spec baseline: **RFC 9112** (HTTP/1.1 message syntax & framing)
-
-
-## Appendix: Handy payload shapes (educational)
-
-
-> These are **generic** shapes for lab environments. Never aim at real services without permission.
-
-
-**CL.TE skeleton**
-
-
-```
-POST /lab HTTP/1.1
-Host: example
-Content-Length: 60
-Transfer-Encoding: chunked
-
-
-0\r\n\r\nGET /victim HTTP/1.1\r\nHost: example\r\n\r\n
-```
-
-
-**TE.CL skeleton**
-
-
-```
-POST /lab HTTP/1.1
-Host: example
-Content-Length: 4
-Transfer-Encoding: chunked
-
-
-5\r\nHELLO\r\n0\r\n\r\n
-```
-
-
-**CL.CL skeleton** (ambiguous duplicate)
-
-
-```
-POST /lab HTTP/1.1
-Host: example
-Content-Length: 4
-Content-Length: 10
-
-
-PING\r\nGET /victim HTTP/1.1\r\nHost: example\r\n\r\n
-```
-
-
+---
+title: "Request Smuggling — End of the HTTP"
+description: "A short introduction to HTTP request smuggling (a.k.a. HTTP desync) and why upstream HTTP/1.1 needs to go — with pointers to the best learning resources."
+pubDate: 2025-08-28
+updatedDate: 2025-08-28
+tags: ["web security", "request smuggling", "desync", "http/1.1", "portswigger"]
+draft: false
 ---
 
+# Request Smuggling — End of the HTTP
 
-If you ship systems that still rely on upstream HTTP/1.1, your best defense is **simplify and normalize**: one parser, one policy, consistent framing. Otherwise, attackers will keep ending your HTTP for you.
+**Request smuggling** (aka **HTTP desync**) is when two hops in a web stack — typically a front‑end proxy/CDN and a back‑end application server — disagree about where one HTTP request ends and the next begins. That disagreement lets an attacker splice their bytes into another user’s request on a shared connection. The result can be anything from confusing caches and auth flows to outright takeover — not because one product is “broken,” but because **HTTP/1.1 framing is ambiguous by design**.
+
+This post stays intentionally short. No payloads, step‑by‑steps, or red‑team stories here. If you want to *learn it properly and safely*, go straight to the resources that set the standard:
+
+- **PortSwigger Web Security Academy — Request Smuggling**: free, hands‑on labs that teach the core desync concepts in a safe environment.
+- **HTTP/1.1 Must Die / http1mustdie.com**: PortSwigger’s campaign (and whitepaper) explaining why upstream HTTP/1.1 is inherently unsafe and why the fix is architectural — not another patch. It’s genuinely excellent.
+- **James Kettle’s research** on modern desync classes and defenses: if you’re after the deep theory and the latest bypasses, that’s where to read.
+
+> Act ethically. Only test systems you own or have explicit permission to assess.
+
+## Start here (recommended reading)
+
+- PortSwigger Academy — *What is HTTP request smuggling?*
+- http1mustdie.com — *HTTP/1.1 Must Die: The Desync Endgame* (campaign + whitepaper + sandbox lab)
+- PortSwigger Research — *HTTP/1.1 Must Die* and related posts
+
+If you work on web infrastructure, the takeaway is simple: **prefer end‑to‑end HTTP/2 (or H3)** and avoid replaying requests upstream over HTTP/1.1 wherever possible. The fewer parsers and translations in the path, the safer everyone is.
