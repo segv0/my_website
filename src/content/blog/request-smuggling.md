@@ -1,13 +1,12 @@
 ---
 title: "Request Smuggling - The End of HTTP"
 description: "A short introduction to HTTP request smuggling (a.k.a. HTTP desync) and why upstream HTTP/1.1 needs to go — with pointers to the best learning resources."
-pubDate: "Aug 28 2022"
+pubDate: "Aug 28 2025"
 heroImage: "/request_smuggling.png"
 ---
 
 
 
-# Request Smuggling — End of the HTTP
 
 **Request smuggling** (aka **HTTP desync**) is when two hops in a web stack — typically a front‑end proxy/CDN and a back‑end application server — disagree about where one HTTP request ends and the next begins. That disagreement lets an attacker splice their bytes into another user’s request on a shared connection. The result can be anything from confusing caches and auth flows to outright takeover — not because one product is “broken,” but because **HTTP/1.1 framing is ambiguous by design**.
 
