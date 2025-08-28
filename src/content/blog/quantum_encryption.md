@@ -1,7 +1,7 @@
 ---
 title: "Quantum Is Coming — A Playful Guide to Encryption’s Future"
 description: "Why your phone, bank, and toaster rely on cryptography; what quantum computers threaten; and how post‑quantum crypto (and new careers) keep us safe."
-pubDate: "Aug 27 2025"
+pubDate: "Aug 23 2025"
 heroImage: "/quantum_enc.jpg"
 ---
 

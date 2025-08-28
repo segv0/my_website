@@ -1,7 +1,7 @@
 ---
 title: "LIT-CTF 2025 WriteUp"
 description: "Some solutions of remarkable challenges from LIT-CTF"
-pubDate: "Aug 27 2025"
+pubDate: "Aug 25 2025"
 heroImage: "/LIT_logo.png"
 ---
 
