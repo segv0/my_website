@@ -1,18 +1,11 @@
 ---
 title: "Request Smuggling - The End of HTTP"
-description: "Lorem ipsum dolor sit amet"
+description: "A short introduction to HTTP request smuggling (a.k.a. HTTP desync) and why upstream HTTP/1.1 needs to go — with pointers to the best learning resources."
 pubDate: "Aug 28 2022"
 heroImage: "/request_smuggling.png"
 ---
 
----
-title: "Request Smuggling — End of the HTTP"
-description: "A short introduction to HTTP request smuggling (a.k.a. HTTP desync) and why upstream HTTP/1.1 needs to go — with pointers to the best learning resources."
-pubDate: 2025-08-28
-updatedDate: 2025-08-28
-tags: ["web security", "request smuggling", "desync", "http/1.1", "portswigger"]
-draft: false
----
+
 
 # Request Smuggling — End of the HTTP
 
