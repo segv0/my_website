@@ -61,3 +61,46 @@ Encryption isn’t dying; it’s **evolving**. Quantum computers will retire som
 
 
 > Be curious, be ethical, and back up your secrets.
+
+
+resources:
+
+https://csrc.nist.gov/projects/post-quantum-cryptography
+
+https://csrc.nist.gov/projects/post-quantum-cryptography/faqs
+
+https://csrc.nist.gov/pubs/fips/203/final
+
+https://csrc.nist.gov/pubs/fips/204/final
+
+https://csrc.nist.gov/pubs/fips/205/final
+
+https://nvlpubs.nist.gov/nistpubs/ir/2024/NIST.IR.8547.ipd.pdf
+
+https://www.nccoe.nist.gov/sites/default/files/2023-12/pqc-migration-nist-sp-1800-38b-preliminary-draft.pdf
+
+https://www.nccoe.nist.gov/sites/default/files/2023-08/mpqc-fact-sheet.pdf
+
+https://www.nsa.gov/Cybersecurity/Post-Quantum-Cybersecurity-Resources/
+
+https://www.ncsc.gov.uk/guidance/pqc-migration-timelines
+
+https://www.cisa.gov/sites/default/files/2023-08/Quantum%20Readiness_Final_CLEAR_508c%20%283%29.pdf
+
+https://www.cisa.gov/sites/default/files/2024-10/Post-Quantum%20Considerations%20for%20Operational%20Technology%20%28508%29.pdf
+
+https://datatracker.ietf.org/doc/draft-ietf-tls-hybrid-design/
+
+https://datatracker.ietf.org/doc/draft-ietf-tls-ecdhe-mlkem/
+
+https://datatracker.ietf.org/doc/draft-ietf-tls-mlkem/
+
+https://blog.cloudflare.com/pq-2024/
+
+https://blog.cloudflare.com/nists-first-post-quantum-standards/
+
+https://blog.cloudflare.com/post-quantum-to-origins/
+
+https://blog.chromium.org/2024/05/advancing-our-amazing-bet-on-asymmetric.html
+
+https://www.chromium.org/Home/chromium-security/post-quantum-pki-design/
